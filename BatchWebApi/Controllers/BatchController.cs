@@ -8,7 +8,7 @@ namespace BatchWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class BatchController : ControllerBase
     {
         AppDbContext _context;
@@ -17,6 +17,7 @@ namespace BatchWebApi.Controllers
             _context = context;
         }
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             List<Batch> batches = _context.Batches.Where(x=>x.IsActive==true).ToList();
@@ -27,6 +28,7 @@ namespace BatchWebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetById(int id)
         {
             Batch batch = _context.Batches.FirstOrDefault(x => x.BatchId == id && x.IsActive == true);
@@ -38,7 +40,7 @@ namespace BatchWebApi.Controllers
 
 
         [HttpPost]
-
+        [Authorize(Roles ="Admin")]
         public IActionResult Create(Batch batch)
         {
             batch.CreatedBy = 100;
@@ -50,6 +52,7 @@ namespace BatchWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Batch batch = _context.Batches.FirstOrDefault(x => x.BatchId == id
@@ -68,6 +71,7 @@ namespace BatchWebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, Batch batch)
         {
             Batch obj = _context.Batches.FirstOrDefault(x => x.BatchId == id 
