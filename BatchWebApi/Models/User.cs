@@ -30,3 +30,8 @@ namespace BatchWebApi.Models
     }
 
 }
+
+// Model > Actual domain
+// ViewModel > what you want to view / access , not part of database
+
+

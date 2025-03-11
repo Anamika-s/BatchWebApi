@@ -1,5 +1,6 @@
 ﻿using BatchWebApi.Context;
 using BatchWebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace BatchWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BatchController : ControllerBase
     {
         AppDbContext _context;
