@@ -4,6 +4,7 @@ using BatchWebApi.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BatchWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311060909_addedmanagerid")]
+    partial class addedmanagerid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +117,7 @@ namespace BatchWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
@@ -131,35 +134,15 @@ namespace BatchWebApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "admin@gmail.com",
-                            FirstName = "Deepak",
-                            LastName = "Kumar",
-                            ManagerId = 1,
-                            Password = "pass@123",
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "ajay@gmail.com",
-                            FirstName = "Ajay",
-                            LastName = "Kumar",
-                            ManagerId = 1,
-                            Password = "pass@123",
-                            RoleId = 2
-                        });
                 });
 
             modelBuilder.Entity("BatchWebApi.Models.User", b =>
                 {
                     b.HasOne("BatchWebApi.Models.User", "Manager")
                         .WithMany()
-                        .HasForeignKey("ManagerId");
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BatchWebApi.Models.Role", "Role")
                         .WithMany("Users")

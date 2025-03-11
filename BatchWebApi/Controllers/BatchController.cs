@@ -68,7 +68,8 @@ namespace BatchWebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Edit(int id, Batch batch)
         {
-            Batch obj = _context.Batches.FirstOrDefault(x => x.BatchId == id && x.IsActive == true);
+            Batch obj = _context.Batches.FirstOrDefault(x => x.BatchId == id 
+            && x.IsActive == true);
             if (obj == null)
                 return BadRequest("No records");
             else
@@ -82,8 +83,11 @@ namespace BatchWebApi.Controllers
                 return Ok(batch);
             }
         }
-
-
+            // to secure service , we use AA 
+          // Authentication > Proving your identity  , using forms authentication
+            // we add login page 
+            //   it means that you are a valid user
+            // roles are there > manager hrmanager admin user  accountant
 
 
     }
