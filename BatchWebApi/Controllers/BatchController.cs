@@ -51,8 +51,10 @@ namespace BatchWebApi.Controllers
             return Created("records added", batch);
         }
 
-        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
+
+        [HttpDelete("{id}")]
+        
         public IActionResult Delete(int id)
         {
             Batch batch = _context.Batches.FirstOrDefault(x => x.BatchId == id

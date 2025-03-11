@@ -48,17 +48,23 @@ namespace BatchWebApi.Controllers
         {
             string role = GetRoleName(user.RoleId);
 
-            List<Claim> claims = new List<Claim> {
-                 //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                 new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
-                 new Claim(JwtRegisteredClaimNames.Name, user.FirstName + " " + user.LastName),
-                 new Claim("Role", role.ToString()),
-                 new Claim(type:"Date", DateTime.Now.ToString())
-            };
-            foreach (var temp in _context.Roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, temp.RoleName));
-            }
+            //List<Claim> claims = new List<Claim> {
+            //     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            //     new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+            //     new Claim(JwtRegisteredClaimNames.Name, user.FirstName + " " + user.LastName),
+            //     new Claim("Role", role.ToString()),
+            //     new Claim(type:"Date", DateTime.Now.ToString())
+            //};
+
+            var claims = new Claim[]
+           {
+                new Claim(JwtRegisteredClaimNames.Jti, new Guid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sid,user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, user.FirstName + " " + user.LastName),
+                new Claim(ClaimTypes.Email , user.Email),
+                new Claim(ClaimTypes.Role, role),
+                new Claim(type:"DateOnly", DateTime.Now.ToString())
+           };
 
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
